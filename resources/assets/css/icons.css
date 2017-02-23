@@ -1,0 +1,110 @@
+@font-face {
+  font-family: 'crud-icons';
+  src:  url('fonts/crud-icons.eot?j25if3');
+  src:  url('fonts/crud-icons.eot?j25if3#iefix') format('embedded-opentype'),
+    url('fonts/crud-icons.ttf?j25if3') format('truetype'),
+    url('fonts/crud-icons.woff?j25if3') format('woff'),
+    url('fonts/crud-icons.svg?j25if3#crud-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  display:inline-block;
+  position:relative;
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'crud-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-spinner:before {
+  content: "\e982";
+}
+.icon-comment:before {
+  content: "\e96b";
+}
+.icon-comments:before {
+  content: "\e970";
+}
+.icon-tag:before {
+  content: "\e935";
+}
+.icon-tags:before {
+  content: "\e936";
+}
+.icon-home:before {
+  content: "\e600";
+}
+.icon-user:before {
+  content: "\e601";
+}
+.icon-user-add:before {
+  content: "\e602";
+}
+.icon-users:before {
+  content: "\e603";
+}
+.icon-key:before {
+  content: "\e604";
+}
+.icon-close:before {
+  content: "\e60a";
+}
+.icon-warning:before {
+  content: "\e60b";
+}
+.icon-clock:before {
+  content: "\e60c";
+}
+.icon-check:before {
+  content: "\e61c";
+}
+.icon-cancel:before {
+  content: "\e61d";
+}
+.icon-views:before {
+  content: "\e625";
+}
+.icon-calendar:before {
+  content: "\e626";
+}
+.icon-plus:before {
+  content: "\e629";
+}
+.icon-plus-circle:before {
+  content: "\e62a";
+}
+.icon-minus-circle:before {
+  content: "\e62b";
+}
+.icon-link:before {
+  content: "\e630";
+}
+.icon-info-circle:before {
+  content: "\e634";
+}
+.icon-trash:before {
+  content: "\e646";
+}
+.icon-dot:before {
+  content: "\e648";
+}
+.icon-dots:before {
+  content: "\e649";
+}
+.icon-edit:before {
+  content: "\e64d";
+}
+.icon-mail:before {
+  content: "\e651";
+}
+

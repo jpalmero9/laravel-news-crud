@@ -1,0 +1,25 @@
+{{ include('news::common.meta') }}
+{{ include('news::common.header') }}
+
+{% block content %}<h3 class="text-center">The content of store is empty</h3>{% endblock %}
+
+{{ include('news::common.footer') }}
+
+<!--noindex-->
+{% block footer_tpl %}{% endblock %}
+<script src="{{ asset('vendor/news-crud/js/underscore-min.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    window.jQuery || document.write('<script src="{{ asset('vendor/news-crud/js/jquery-3.1.1.min.js') }}"><\/script>');
+</script>
+<script src="{{ asset('vendor/news-crud/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendor/news-crud/plugins/formvalidation/js/formValidation.min.js') }}"></script>
+<script src="{{ asset('vendor/news-crud/plugins/formvalidation/js/framework/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendor/news-crud/plugins/formvalidation/js/language/en_US.js') }}"></script>
+<script src="{{ asset('vendor/news-crud/plugins/bootstrap-datetimepicker/js/moment-with-locales.js') }}"></script>
+<script src="{{ asset('vendor/news-crud/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+{% block footer_libs %}{% endblock %}
+<script src="{{ asset('vendor/news-crud/js/common.js') }}"></script>
+<!--/noindex-->
+</body>
+</html>

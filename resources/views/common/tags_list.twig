@@ -1,0 +1,18 @@
+<section class="box">
+	<h4 class="h2">
+		<a rel="nofollow" href="{{ route('tags.index', [], false) }}" class="box__title-url">
+			<i class="box__title-icon icon-tags" aria-hidden="true"></i>
+			<span class="box__title-i">{{ trans('news::tags.box.title') }}</span>
+		</a>
+	</h4>
+
+	<ul class="tags-list">
+		{% for tag in tags -%}
+			<li class="tags-list__item">
+				<a rel="tag" href="{{ tag.url }}"
+				   class="tag tags-list__tag{% if tag_active == tag.slug %} tag_active{% endif %}">{{ tag.name }}</a>
+			</li>
+		{% endfor -%}
+	</ul>
+
+</section>

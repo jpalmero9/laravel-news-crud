@@ -1,0 +1,111 @@
+{% extends 'news::layouts.default' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+
+			<section class="col-xs-12 col-sm-12 col-md-8">
+
+				{{ include('news::common.breadcrumb') }}
+
+				{% if auth.check %}
+					<a href="{{ route('news.create', [], false) }}" class="btn btn-success pull-right">
+						<i class="icon-plus" aria-hidden="true"></i>
+						<span>{{ trans('news::post.page.index.btn_post_create') }}</span>
+					</a>
+				{% endif %}
+
+				<h1 class="h1 page-header">{{ category_name }}</h1>
+
+				{% if msg -%}
+					{% import 'news::common.macros.alert_success' as alert_success %}
+					{{ alert_success.alert(msg) }}
+				{% endif %}
+
+				{% if errors.any %}
+
+					{% import 'news::common.macros.alert_error' as alert_error %}
+
+					{% for error in errors.all %}
+						{{ alert_error.alert(error) }}
+					{% endfor %}
+				{% endif %}
+
+
+				{% if posts_paginate.isNotEmpty -%}
+
+
+					<div id="news-all" class="news-all" data-current="{{ current_route }}"
+						 data-url-post-delete="{{ route('api.post_destroy', [], false) }}">
+						{% for post in posts_paginate -%}
+							<section class="clearfix news-all__item news-all__item-m" data-id="{{ post.id }}" itemscope
+									 itemtype="http://schema.org/NewsArticle">
+								<meta itemprop="datePublished" content="{{ post.published_at.toIso8601String() }}">
+								<time class="news-all__time">{{ post.published_safe }}</time>
+								<h2 class="news-all__title">
+									<a rel="index" href="{{ post.url }}" class="news-all__title-i" itemprop="url name">
+										{{ post.name }}
+									</a>
+								</h2>
+								<div class="news-all__description" itemprop="description">
+									{{ post.summary }}
+								</div>
+								{% if post.tags.isNotEmpty -%}
+									<ul class="list-inline">
+										<li>
+											{% for tag in post.tags -%}
+												<a rel="tag" href="{{ tag.url }}"
+												   title="{{ trans('news::post.page.index.tag_title') }}"
+												   class="tag{% if tag.active %} tag_active{% endif %}">{{ tag.name }}</a>
+											{% endfor %}
+										</li>
+									</ul>
+								{% endif %}
+								{% if post.manage_btn -%}
+									<div class="btn-group pull-right">
+										<a href="{{ post.manage_btn.edit }}"
+										   class="btn btn-xs btn-success">
+											{{ trans('news::post.page.index.btn_post_edit') }}
+										</a>
+										<button type="button"
+												class="btn btn-xs btn-danger post-btn-delete">
+											{{ trans('news::post.page.index.btn_post_delete') }}
+										</button>
+									</div>
+								{% endif %}
+							</section>
+						{% endfor -%}
+					</div>
+
+
+				{% else %}
+					{{ include('news::common.alert_warning', {message: trans('news::post.result_is_empty')}) }}
+				{% endif %}
+
+				{% if posts_paginate.previousPageUrl or posts_paginate.nextPageUrl -%}
+					{% import 'news::common.pagination.macro_paginator' as pagination %}
+					{#{{ include('news::common.pagination.paginator', {paginator: posts_paginate}) }}#}
+					{{ pagination.navigation(posts_paginate, route('api.post_pagination.category', [], false), category_id) }}
+				{% endif %}
+
+			</section>
+
+			<aside class="col-xs-12 col-sm-12 col-md-4">
+
+				{% include('news::common.tags_list') %}
+
+			</aside>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block footer_tpl %}
+	{% include('news::category.template_js_post_short') %}
+	{% include('news::common.pagination.template_js_pages') %}
+	{% include('news::common.pagination.template_js_btn_next_empty') %}
+	{% include('news::common.pagination.template_js_btn_next_link') %}
+	{% include('news::common.pagination.template_js_btn_prev_empty') %}
+	{% include('news::common.pagination.template_js_btn_prev_link') %}
+{% endblock %}

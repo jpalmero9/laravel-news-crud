@@ -1,0 +1,99 @@
+{% extends 'news::layouts.default' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+
+			<section class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+
+				<h1 class="h1 page-header">{{ trans('news::users.page.register.title') }}</h1>
+
+				{% if errors.any %}
+
+					{% import 'news::common.macros.alert_error' as alert_error %}
+
+					{% for error in errors.all %}
+						{{ alert_error.alert(error) }}
+					{% endfor %}
+				{% endif %}
+
+
+				<form id="form-user-register" method="post" action="{{ route('register.store', [], false) }}"
+					  class="form-horizontal"
+					  data-fv-locale="{{ locale }}"
+					  data-fv-framework="bootstrap"
+					  data-fv-message="{{ trans('news::validation.custom.invalid') }}"
+					  data-fv-icon-valid="icon-check"
+					  data-fv-icon-invalid="icon-cancel"
+					  data-fv-icon-validating="icon-refresh">
+					{{ csrf_field() }}
+
+					<div class="form-group form-group-lg">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="icon-user" aria-hidden="true"></i>
+							</span>
+							<input type="text" name="name" class="form-control"
+								   placeholder="{{ trans('news::users.form_inputs.name') }}"
+								   data-fv-notempty="true"
+								   maxlength="255"
+								   required="required">
+						</div>
+					</div>
+
+					<div class="form-group form-group-lg">
+						<div class="input-group">
+							<span class="input-group-addon">
+								@
+							</span>
+							<input type="email" name="email" class="form-control"
+								   placeholder="{{ trans('news::users.form_inputs.email') }}"
+								   data-fv-notempty="true"
+								   maxlength="255"
+								   required="required">
+						</div>
+					</div>
+
+					<div class="form-group form-group-lg">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="icon-key" aria-hidden="true"></i>
+							</span>
+							<input type="password" name="password" class="form-control"
+								   placeholder="{{ trans('news::users.form_inputs.password') }}"
+								   data-fv-notempty="true"
+								   minlength="6"
+								   required="required">
+						</div>
+					</div>
+
+					<div class="form-group form-group-lg">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="icon-key" aria-hidden="true"></i>
+							</span>
+							<input type="password" name="password_confirmation" class="form-control"
+								   placeholder="{{ trans('news::users.form_inputs.password_confirmation') }}"
+								   data-fv-identical="true"
+								   data-fv-identical-field="password"
+								   data-fv-notempty="true"
+								   minlength="6"
+								   required="required">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button type="submit"
+								class="btn btn-lg btn-primary btn-block">{{ trans('news::users.page.register.btn_submit_register') }}</button>
+					</div>
+
+
+				</form>
+
+
+			</section>
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends 'news::layouts.default' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+
+			<section class="col-xs-12 col-sm-12 col-md-8">
+
+				{{ include('news::common.breadcrumb') }}
+
+				{% if msg -%}
+					{% import 'news::common.macros.alert_success' as alert_success %}
+					{{ alert_success.alert(msg) }}
+				{% endif %}
+
+				{% if errors.any %}
+
+					{% import 'news::common.macros.alert_error' as alert_error %}
+
+					{% for error in errors.all %}
+						{{ alert_error.alert(error) }}
+					{% endfor %}
+				{% endif %}
+
+				<article id="article" class="article" itemscope itemtype="http://schema.org/NewsArticle">
+					<meta itemprop="dateCreated" content="{{ post.created_at.toIso8601String() }}">
+					<meta itemprop="dateModified" content="{{ post.updated_at.toIso8601String() }}">
+					<meta itemprop="datePublished" content="{{ post.published_at.toIso8601String() }}">
+					{% if post.meta.keywords -%}
+						<meta itemprop="keywords" content="{{ post.meta.keywords }}">
+					{% endif %}
+
+					{% if comments.isNotEmpty %}
+						<meta itemprop="commentCount" content="{{ comments.total }}">
+					{% endif %}
+
+					<h1 class="h1 page-header" itemprop="name">{{ post.name }}</h1>
+
+					<div class="article__info">
+						<meta itemprop="dateCreated" content="{{ post.created_at.toIso8601String() }}">
+						<meta itemprop="dateModified" content="{{ post.updated_at.toIso8601String() }}">
+						<meta itemprop="datePublished" content="{{ post.published_at.toIso8601String() }}">
+						<time class="article__date">{{ post.published_safe }}</time>
+
+						<a rel="nofollow" href="{{ post.category.url }}" class="tooltip-info" data-toggle="tooltip"
+						   title="{{ trans('news::post.article.category') }}">{{ post.category.name }}</a>
+
+						<a class="pull-right tooltip-info" href="{{ post.author.url }}" data-toggle="tooltip"
+							  title="{{ trans('news::post.article.author') }}" itemprop="author">
+							{{ post.author.name }}
+						</a>
+
+						{% if post.tags.isNotEmpty %}
+							<ul class="list-inline">
+								<li>
+									{% for tag in post.tags %}
+										<a rel="tag" href="{{ tag.url }}" class="tag">{{ tag.name }}</a>
+									{% endfor %}
+								</li>
+							</ul>
+						{% endif %}
+
+
+					</div>
+
+					<div class="clearfix article__body">
+
+						<div class="article__img-w">
+							<img src="{{ asset('vendor/news-crud/img/no-image.jpg') }}" alt="{{ post.name }}"
+								 class="article__img" itemprop="image">
+						</div>
+
+						<div class="article__story" itemprop="text">{{ post.story }}</div>
+					</div>
+
+					{% if post.tags.isNotEmpty %}
+						<div class="article__info">
+							<ul class="list-inline">
+								<li>
+									{% for tag in post.tags %}
+										<a rel="tag" href="{{ tag.url }}" class="tag">{{ tag.name }}</a>
+									{% endfor %}
+								</li>
+							</ul>
+						</div>
+					{% endif %}
+
+				</article>
+
+				<hr>
+
+				{{ include('news::post.comment_add') }}
+
+
+
+				{% if comments.isNotEmpty -%}
+
+					<hr>
+
+					<section class="box">
+
+						<h4 class="h2 box__title-i">{{ trans('news::comments.post_show.title') }} <span
+									class="badge">{{ comments.total }}</span></h4>
+
+						<div class="comment-list" id="comment-list">
+							{% for comment in comments -%}
+								<div class="comment-list__item" itemprop="comment" itemscope
+									 itemtype="http://schema.org/Comment" itemref="article">
+									<div class="comment-list__text" itemprop="text">{{ comment.content }}</div>
+									<div class="text-muted">
+										<meta itemprop="dateCreated"
+											  content="{{ comment.created_at.toIso8601String() }}">
+										<time class="comment-list__date">{{ comment.created_at.format(trans('news::config.time')) }}</time>
+
+										{% if comment.author.url -%}
+											<a rel="author" href="{{ comment.author.url }}" class="comment-list__author"
+											   itemprop="creator" itemscope itemtype="http://schema.org/Person">
+												<span itemprop="name">{{ comment.author.name }}</span>
+											</a>
+										{% else -%}
+											<span itemprop="author">{{ comment.author.name }}</span>
+										{% endif %}
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+
+						{% if comments.previousPageUrl or comments.nextPageUrl -%}
+							{{ include('news::common.pagination.comments_paginator', {paginator: comments}) }}
+						{% endif %}
+
+					</section>
+				{% endif %}
+
+			</section>
+
+			<aside class="col-xs-12 col-sm-12 col-md-4">
+
+				{% include('news::common.tags_list') %}
+
+			</aside>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block footer_tpl %}
+	{% include('news::post.template_js_comments_wrap') %}
+	{% include('news::post.template_js_comment') %}
+{% endblock %}

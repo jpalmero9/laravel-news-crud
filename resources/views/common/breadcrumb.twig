@@ -1,0 +1,24 @@
+<ul class="breadcrumb breadcrumb_light" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+	<li>
+		<a rel="alternate home" href="{{ route('home', [], false) }}" data-toggle="tooltip"
+		   title="{{ trans('news::common.site_name') }}">
+			<i class="icon-home" aria-hidden="true"></i>
+		</a>
+	</li>
+
+	{% for breadcrumb_item in breadcrumbs -%}
+		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+			{% if breadcrumb_item.url is defined -%}
+				<a href="{{ breadcrumb_item.url }}"
+				   itemprop="item"{% if breadcrumb_item.title is defined %} class="tooltip-info" data-toggle="tooltip" data-placement="top" title="{{ breadcrumb_item.title|raw }}"{% endif %}>
+					<span itemprop="name" class="text-line">{{ breadcrumb_item.name|raw }}</span>
+					<meta itemprop="position" content="{{ loop.index }}">
+				</a>
+			{% else -%}
+				<span itemprop="name" class="text-line">{{ breadcrumb_item.name|raw }}</span>
+				<meta itemprop="position" content="{{ loop.index }}">
+			{% endif %}
+		</li>
+	{% endfor %}
+
+</ul>

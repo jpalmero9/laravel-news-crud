@@ -1,0 +1,92 @@
+{% extends 'news::layouts.default' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+
+			<div class="col-xs-12">
+				{{ include('news::common.breadcrumb') }}
+			</div>
+
+			<section class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+
+				<h1 class="h1 page-header">{{ trans('news::category.edit.title') }}</h1>
+
+				{% if errors.any %}
+
+					{% import 'news::common.macros.alert_error' as alert_error %}
+
+					{% for error in errors.all %}
+						{{ alert_error.alert(error) }}
+					{% endfor %}
+				{% endif %}
+
+
+				<form id="form-category-manage" class="form-horizontal" method="post"
+					  action="{{ route('category.update', {'id': category.id}, false) }}"
+					  data-fv-locale="{{ locale }}"
+					  data-fv-framework="bootstrap"
+					  data-fv-message="{{ trans('news::validation.custom.invalid') }}"
+					  data-fv-icon-valid="icon-check"
+					  data-fv-icon-invalid="icon-cancel"
+					  data-fv-icon-validating="icon-refresh">
+					{% for field in hidden_fields %}
+						<input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+					{% endfor %}
+
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-7 col-md-offset-4">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="active" value="1"
+									   class="px"{% if old('active') or category.active %} checked="checked"{% endif %}>
+								<span class="lbl">{{ trans('news::category.manage_form.active') }}</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-category-manage-slug"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::category.manage_form.slug') }}
+							<ins>*</ins>
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<input type="text" name="slug" value="{{ old('slug', category.slug) }}"
+								   id="form-category-manage-slug"
+								   class="form-control"
+								   maxlength="70"
+								   data-fv-notempty="true">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="form-category-manage-name"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::category.manage_form.name') }}
+							<ins>*</ins>
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<input type="text" name="name"
+								   value="{{ old('name', category.name) }}"
+								   id="form-category-manage-name"
+								   class="form-control" maxlength="100" required="required" data-fv-notempty="true">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-7">
+							<button type="submit"
+									class="btn btn-lg btn-primary btn-block">{{ trans('news::category.edit.btn_submit_edit') }}</button>
+						</div>
+					</div>
+
+				</form>
+
+
+			</section>
+
+		</div>
+	</div>
+
+{% endblock %}

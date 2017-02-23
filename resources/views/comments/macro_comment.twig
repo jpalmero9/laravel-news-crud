@@ -1,0 +1,11 @@
+{% macro comment(item) %}
+	<div class="comment-list__item" itemscope itemtype="http://schema.org/Comment">
+		<a rel="index" href="{{ item.post_url }}" class="comment-list__url" itemprop="url">
+			<div class="comment-list__text" itemprop="text">{{ item.content }}</div>
+			<div class="text-muted">
+				<time class="comment-list__date">{{ item.created_at.format(trans('news::config.time')) }}</time>
+				<span class="comment-list__author" itemprop="author">{{ item.author.name }}</span>
+			</div>
+		</a>
+	</div>
+{% endmacro comment %}

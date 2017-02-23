@@ -1,0 +1,221 @@
+{% extends 'news::layouts.default' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+
+			<div class="col-xs-12">
+				{{ include('news::common.breadcrumb') }}
+			</div>
+
+			<section class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+
+
+				<h1 class="h1 page-header">{{ trans('news::post.page.edit.title') }}</h1>
+
+				{% if errors.any %}
+					{% for error in errors.all %}
+						<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+										aria-hidden="true">&times;</span></button>
+							{{ error }}
+						</div>
+					{% endfor %}
+				{% endif %}
+
+
+				<form id="form-post-manage" class="form-horizontal" method="post"
+					  action="{{ route('news.update', {'id': post.id}, false) }}"
+					  data-fv-locale="{{ locale }}"
+					  data-fv-framework="bootstrap"
+					  data-fv-message="{{ trans('news::validation.custom.invalid') }}"
+					  data-fv-icon-valid="icon-check"
+					  data-fv-icon-invalid="icon-cancel"
+					  data-fv-icon-validating="icon-refresh">
+					{% for field in hidden_fields %}
+						<input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+					{% endfor %}
+
+
+					<div class="form-group">
+						<span class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.page.edit.created_at') }}</span>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<p class="form-control-static">{{ post.created_at.toDateTimeString }}</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<span class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.page.edit.updated_at') }}</span>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<p class="form-control-static">{{ post.updated_at.toDateTimeString }}</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-post-manage-published"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.published_at') }}</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="icon-clock" aria-hidden="true"></i>
+								</span>
+								<input type="text" name="published_at"
+									   value="{{ old('published_at', post.published_at.toDateTimeString) }}"
+									   id="form-post-manage-published"
+									   class="form-control"
+									   placeholder="YYYY-MM-DD HH:mm:ss"
+									   data-fv-date="true"
+									   data-fv-date-format="YYYY-MM-DD h:m:s">
+							</div>
+
+						</div>
+						<div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-7 col-md-offset-4">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="published_now" value="1"
+									   class="px"{% if old('published_now') or post.published_now %} checked="checked"{% endif %}>
+								<span class="lbl">{{ trans('news::post.manage_form.published_now') }}</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-post-manage-category"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.category_id') }}
+							<ins>*</ins>
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<select name="category_id" id="form-post-manage-category" class="form-control"
+									required="required">
+								<option value="">{{ trans('news::post.option_select') }}</option>
+								{% for category in form.categories %}
+									<option value="{{ category.id }}"{% if old('category_id', post.cat_id) == category.id %} selected="selected"{% endif %}>{{ category.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-post-manage-slug"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.slug') }}
+							<ins>*</ins>
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<input type="text" name="slug" value="{{ old('slug', post.slug) }}"
+								   id="form-post-manage-slug"
+								   class="form-control" required="required" data-fv-notempty="true" maxlength="70">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="form-post-manage-title"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.title') }}
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<input type="text" name="title"
+								   value="{{ old('title', post.title) }}"
+								   id="form-post-manage-title"
+								   class="form-control" maxlength="55">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-post-manage-description"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.description') }}
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<input type="text" name="description"
+								   value="{{ old('description', post.description) }}"
+								   id="form-post-manage-description"
+								   class="form-control" maxlength="155">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-post-manage-keywords"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.keywords') }}
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<input type="text" name="keywords"
+								   value="{{ old('keywords', post.keywords) }}"
+								   id="form-post-manage-keywords"
+								   class="form-control" maxlength="250">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="form-post-manage-name"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.name') }}
+							<ins>*</ins>
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<input type="text" name="name"
+								   value="{{ old('translate.{lang.locale}.name', post.name) }}"
+								   id="form-post-manage-name"
+								   maxlength="255"
+								   class="form-control" required="required" data-fv-notempty="true">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-post-manage-summary"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.summary') }}
+							<ins>*</ins>
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+											<textarea class="form-control" cols="50" rows="6" name="summary"
+													  id="form-post-manage-summary"
+													  maxlength="1000"
+													  required="required"
+													  data-fv-notempty="true">{{ old('summary', post.summary) }}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="form-post-manage-story"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.story') }}
+						</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+											<textarea class="form-control" cols="50" rows="6" name="story"
+													  maxlength="5000"
+													  id="form-post-manage-story">{{ old('story', post.story) }}</textarea>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="form-post-manage-tags"
+							   class="col-xs-12 col-sm-4 col-md-4 control-label">{{ trans('news::post.manage_form.tags') }}</label>
+						<div class="col-xs-12 col-sm-8 col-md-7">
+							<ul>
+								<li>
+									{% for tag in form.tags %}
+										<label class="checkbox">
+											<input type="checkbox" name="tags[]"
+												   value="{{ tag.slug }}" {% if tag.slug in old('tags', post.tags) %} checked="checked"{% endif %}> {{ tag.name }}
+										</label>
+									{% endfor %}
+								</li>
+							</ul>
+
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-7">
+							<button type="submit"
+									class="btn btn-lg btn-primary btn-block">{{ trans('news::post.page.edit.btn_submit_edit') }}</button>
+						</div>
+					</div>
+
+				</form>
+
+
+			</section>
+
+		</div>
+	</div>
+
+{% endblock %}

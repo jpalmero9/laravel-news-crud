@@ -1,0 +1,56 @@
+{% extends 'news::layouts.default' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+
+			<section class="col-xs-12 col-sm-12 col-md-8">
+
+				{{ include('news::common.breadcrumb') }}
+
+				{% if msg -%}
+					{% import 'news::common.macros.alert_success' as alert_success %}
+					{{ alert_success.alert(msg) }}
+				{% endif %}
+
+				{% if errors.any %}
+
+					{% import 'news::common.macros.alert_error' as alert_error %}
+
+					{% for error in errors.all %}
+						{{ alert_error.alert(error) }}
+					{% endfor %}
+				{% endif %}
+
+
+				<h1 class="h1 page-header">{{ user.name }}</h1>
+
+				<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+
+					{% if user.posts.count or user.comments.count %}
+						<ul class="list-group">
+							{% if user.posts.count %}
+								<a class="list-group-item" href="{{ user.posts.url }}">{{ trans('news::users.page.show.posts_count') }} <span class="badge">{{ user.posts.count }}</span> </a>
+							{% endif %}
+
+							{% if user.comments.count %}
+								<a class="list-group-item" href="{{ user.comments.url }}">{{ trans('news::users.page.show.comments_count') }} <span class="badge">{{ user.comments.count }}</span> </a>
+							{% endif %}
+						</ul>
+					{% endif %}
+
+				</div>
+
+
+		</section>
+
+		<aside class="col-xs-12 col-sm-12 col-md-4">
+
+			{% include('news::common.tags_list') %}
+
+		</aside>
+	</div>
+	</div>
+
+{% endblock %}

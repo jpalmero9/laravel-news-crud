@@ -1,0 +1,13 @@
+<script type="text/template" id="tplPostCommentItem">
+	<div class="comment-list__item" itemprop="comment" itemscope
+		 itemtype="http://schema.org/Comment" itemref="article">
+		<div class="comment-list__text" itemprop="text"><%= content %></div>
+		<div class="text-muted">
+			<meta itemprop="dateCreated" content="<%= created_at.toIso8601String %>">
+			<time class="comment-list__date"><%= created_at %></time>
+			<span class="comment-list__author" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+				<span itemprop="name"><%= name %></span>
+			</span>
+		</div>
+	</div>
+</script>

@@ -1,0 +1,28 @@
+<script type="text/template" id="tplPostShortItem">
+	<section class="clearfix news-all__item news-all__item-m" data-id="<%= id %>" itemscope itemtype="http://schema.org/NewsArticle">
+		<meta itemprop="datePublished" content="<%= published_at.toIso8601String %>">
+		<div class="news-all__time"><%= published_safe %></div>
+		<h2 class="news-all__title">
+			<a rel="index" href="<%= url %>" class="news-all__title-i" itemprop="url name"><%= name %></a>
+		</h2>
+		<div class="news-all__description" itemprop="description"><%= summary %></div>
+
+		<ul class="list-inline">
+			<% _.map(tags, function(item, i){ %>
+			<li>
+				<a rel="tag" href="<%= item.url %>"
+				   class="tag<% if (item.active){  %> tag_active<% } %>"><%= item.name %></a>
+			</li>
+			<% }); %>
+		</ul>
+
+		<% if (manage_btn){ %>
+		<div class="btn-group pull-right">
+			<a href="<%= manage_btn.edit %>"
+			   class="btn btn-xs btn-success">{{ trans('news::post.page.index.btn_post_edit') }}</a>
+			<button type="button"
+					class="btn btn-danger btn-xs post-btn-delete">{{ trans('news::post.page.index.btn_post_delete') }}</button>
+		</div>
+		<% } %>
+	</section>
+</script>

@@ -1,0 +1,89 @@
+<nav class="navbar navbar-default">
+	<div class="container">
+
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#header-navbar-collapse" aria-expanded="false">
+				<span class="sr-only">{{ trans('news::header.btn_toggle_navbar') }}</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a rel="alternate home" class="navbar-brand" href="{{ route('home', [], false) }}">NewsCrud</a>
+		</div>
+
+
+		<div class="collapse navbar-collapse header-navbar-collapse" id="header-navbar-collapse" role="navigation">
+			<ul class="nav navbar-nav" data-all="{{ categories.count }}"
+				data-id="{{ (categories.count / 3)|round(0, 'ceil') }}">
+				{% if categories is not empty %}
+					<li class="dropdown header-categories">
+						<a href="{{ route('news.index', [], false) }}" class="dropdown-toggle" data-toggle="dropdown"
+						   role="button" aria-haspopup="true"
+						   aria-expanded="false">{{ trans('news::header.btn_category_dropdown') }} <span
+									class="caret"></span></a>
+						<ul class="dropdown-menu header-categories-dropdown">
+
+							{% set cats_per_column = (categories.count / 3)|round(0, 'ceil') %}
+							{% set categories = categories.chunk(cats_per_column) %}
+
+							{% for columns in categories -%}
+								<div class="col-xs-4">
+									<ul class="header-categories">
+										{% for category in columns -%}
+											<li class="header-categories__item{% if category.slug == current_category %} header-categories__item_active{% endif %}">
+												<a rel="nofollow" class="header-categories__link"
+												   href="{{ category.url }}">{{ category.name }}
+													{% if category.slug == current_category %}
+														<span class="sr-only">
+														({{ trans('news::header.btn_active_status') }}
+														)</span>{% endif %}
+												</a></li>
+										{% endfor -%}
+									</ul>
+								</div>
+							{% endfor -%}
+
+						</ul>
+					</li>
+				{% endif %}
+				<li>
+					<a rel="nofollow" href="{{ route('news.index', [], false) }}">
+						{{ trans('news::header.link_news') }}
+					</a>
+				</li>
+				<li>
+					<a rel="nofollow" href="{{ route('category.index', [], false) }}">
+						{{ trans('news::header.link_category_crud') }}
+					</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right header-auth">
+				{% if user.id -%}
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+						   aria-expanded="false">{{ user.name }} <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="{{ route('logout', [], false) }}">{{ trans('news::header.btn_logout') }}</a>
+							</li>
+						</ul>
+					</li>
+				{% else -%}
+					<li>
+						<a href="{{ route('login', [], false) }}" class="btn btn-primary btn-outline header-auth__btn">
+							<i class="icon-login" aria-hidden="true"></i>
+							<span>{{ trans('news::header.btn_login') }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="{{ route('register.create', [], false) }}" class="btn btn-primary header-auth__btn">
+							<i class="icon-user-add" aria-hidden="true"></i>
+							<span>{{ trans('news::header.btn_register') }}</span>
+						</a>
+					</li>
+				{% endif -%}
+			</ul>
+		</div>
+
+	</div>
+</nav>

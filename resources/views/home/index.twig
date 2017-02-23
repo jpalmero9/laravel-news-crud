@@ -1,0 +1,103 @@
+{% extends 'news::layouts.default' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			<main class="col-xs-12 col-sm-12 col-md-8">
+
+				{% if msg -%}
+					{% import 'news::common.macros.alert_success' as alert_success %}
+					{{ alert_success.alert(msg) }}
+				{% endif %}
+
+				{% if errors.any %}
+
+					{% import 'news::common.macros.alert_error' as alert_error %}
+
+					{% for error in errors.all %}
+						{{ alert_error.alert(error) }}
+					{% endfor %}
+				{% endif %}
+
+				<section class="col-xs-6 col-sm-5">
+					<h2 class="h1">
+						<a rel="nofollow" href="{{ route('news.index', [], false) }}">
+							<span class="box__title-i">{{ trans('news::post.box.popular.title') }}</span>
+						</a>
+					</h2>
+
+					<div class="post-list post-list_bordered post-list_bordered_only-left">
+						{% import 'news::home.macro_post_item_latest' as post_latest_template %}
+
+						{% for post in posts_latest -%}
+							{{ post_latest_template.latest(post) }}
+						{% endfor %}
+					</div>
+
+				</section>
+
+				<div class="col-xs-5 col-sm-7 box">
+
+					<div class="post-list post-list_bordered">
+						{% import 'news::home.macro_post_item_popular' as post_popular_template %}
+
+						{% for post in posts_popular -%}
+							{{ post_popular_template.popular(post, loop) }}
+						{% endfor %}
+
+					</div>
+
+				</div>
+
+
+			</main>
+			<aside class="col-xs-12 col-sm-12 col-md-4">
+
+				{% include('news::common.tags_list') %}
+
+				<section class="box">
+					<h4 class="h3">
+						<a rel="nofollow" href="{{ route('comments.index', [], false) }}" class="box__title-url">
+							<i class="box__title-icon icon-comments" aria-hidden="true"></i>
+							<span class="box__title-i">{{ trans('news::comments.box.latest.title') }}</span>
+						</a>
+					</h4>
+
+					<ul class="comment-list">
+						{% for comment in comments_latest -%}
+							<li class="comment-list__item" itemscope itemtype="http://schema.org/Comment">
+								<a rel="index" href="{{ comment.post_url }}" class="comment-list__url" itemprop="url">
+									<div class="comment-list__text" itemprop="text">{{ comment.content }}</div>
+									<div class="text-muted">
+										<time class="comment-list__date">{{ comment.created_at.format(trans('news::config.time')) }}</time>
+										<span class="comment-list__author" itemprop="author">{{ comment.author }}</span>
+									</div>
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+
+
+						{# <!-- upload content via ajax --> #}
+					{#<div class="comment-list comment-list_empty" id="comment-list-latest"#}
+						 {#data-action-url-comments="{{ route('api.post_comment.latest', [], false) }}" data-limit="15">#}
+						{#{% import 'news::home.macro_comment_empty' as comment_empty %}#}
+						{#{% for i in 1..5 %}#}
+							{#{{ comment_empty.comment() }}#}
+						{#{% endfor %}#}
+					{#</div>#}
+
+
+				</section>
+
+			</aside>
+		</div>
+	</div>
+
+{% endblock %}
+
+
+{% block footer_tpl %}
+	{% include('news::home.template_js_comment') %}
+{% endblock %}

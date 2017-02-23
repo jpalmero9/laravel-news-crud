@@ -1,0 +1,10 @@
+<div class="comment-list comment-list_empty" id="comment-list-latest"
+	 data-action-url-comments="{{ route('api.post_comment.latest', [], false) }}" data-limit="15">
+
+	{% import 'news::home.macro_comment_empty' as comment_empty %}
+
+	{% for i in 1..5 %}
+	{{ comment_empty.comment() }}
+	{% endfor %}
+
+</div>

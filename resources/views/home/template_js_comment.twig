@@ -1,0 +1,11 @@
+<script type="text/template" id="tplCommentLatest">
+	<div class="comment-list__item" itemscope itemtype="http://schema.org/Comment">
+		<a rel="index" href="<%= post_url %>" class="comment-list__url" itemprop="url">
+			<div class="comment-list__text" itemprop="text"><%= content %></div>
+			<div class="text-muted">
+				<time class="comment-list__date"><%= created_safe %></time>
+				<span class="comment-list__author" itemprop="author">{{ author }}</span>
+			</div>
+		</a>
+	</div>
+</script>

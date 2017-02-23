@@ -1,0 +1,48 @@
+<script type="text/template" id="tplNavigationPages">
+	<% if( current_page > 5){ %>
+	<li class="navigation-pages__item">
+		<a class="navigation-pages__link" href="<%= url + 1 %>">1</a>
+	</li>
+	<li class="navigation-pages__item">
+		<span class="navigation-pages__dot">...</span>
+	</li>
+	<% } %>
+
+	<% var link_limit = 5 %>
+	<% var half_total_links = Math.floor(link_limit) %>
+	<% var page_start = current_page - half_total_links %>
+	<% var page_end = current_page + half_total_links %>
+	<% if (current_page < half_total_links){ %>
+	<% page_start = page_start + (half_total_links - current_page) %>
+	<% } %>
+	<% if ((last_page - current_page) < half_total_links){ %>
+	<%  page_end = page_end - (half_total_links - (last_page - current_page) - 1) %>
+	<% } %>
+
+	<% for(var i=1; i < page_end; i++ ){ %>
+	<% if (page_start < i && i < page_end){ %>
+	<li class="navigation-pages__item">
+		<% if (current_page == i){ %>
+		<span class="navigation-pages__current"><%= i %></span>
+		<span class="sr-only">({{ trans('news::pagination.current_page') }})</span>
+		<% } else { %>
+		<a class="navigation-pages__link" href="<%= url + i %>"><%= i %></a>
+		<% } %>
+	</li>
+	<% } %>
+	<% } %>
+
+
+	<% if (current_page < (last_page -5)){  %>
+	<li class="navigation-pages__item">
+		<span class="navigation-pages__dot">...</span>
+	</li>
+	<% } %>
+	<% if (current_page < (last_page -4)){  %>
+	<li class="navigation-pages__item">
+		<a class="navigation-pages__link"
+		   href="<%= url + last_page %>"><%= last_page %></a>
+	</li>
+	<% } %>
+
+</script>

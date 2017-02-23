@@ -1,0 +1,13 @@
+{% macro latest(post) %}
+<section class="clearfix post-list__item" itemscope
+		 itemtype="http://schema.org/NewsArticle">
+	<a rel="index" href="{{ post.url }}" class="post-list__url-title" itemprop="url">
+		<h3 class="h4">
+			<meta itemprop="datePublished"
+				  content="{{ post.published_at.toIso8601String() }}">
+			<time class="post-list__label-date">{{ post.published_at.format( post.is_today_published ? trans('news::config.time') : trans('news::config.datetime')) }}</time>
+			<span class="post-list__title" itemprop="name">{{ post.name }}</span>
+		</h3>
+	</a>
+</section>
+{% endmacro latest %}

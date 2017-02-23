@@ -1,0 +1,17 @@
+{% macro tags_list(tags) %}
+	<section class="box">
+		<h4 class="h2">
+			<a rel="nofollow" href="{{ route('tags.index', [], false) }}">
+				<span class="box__title-i">{{ trans('news::tags.box.title') }}</span>
+			</a>
+		</h4>
+
+		<ul class="tags-list">
+			{% for tag in tags -%}
+				<li class="tags-list__item">
+					<a rel="tag" href="{{ tag.url }}" class="tag tags-list__tag">{{ tag.name }}</a>
+				</li>
+			{% endfor -%}
+		</ul>
+	</section>
+{% endmacro tags_list %}

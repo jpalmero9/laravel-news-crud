@@ -1,0 +1,74 @@
+<section class="comment-add">
+	<h5 class="h3">{{ trans('news::comments.form_add.title') }}</h5>
+
+	<form id="comment-add" method="post" action="{{ route('api.post_comment.add', [], false) }}" class="form-horizontal"
+		  data-fv-locale="{{ locale }}"
+		  data-fv-framework="bootstrap"
+		  data-fv-message="{{ trans('news::validation.custom.invalid') }}"
+		  data-fv-icon-valid="icon-check"
+		  data-fv-icon-invalid="icon-cancel"
+		  data-fv-icon-validating="icon-refresh">
+		{{ csrf_field() }}
+		{% for field in hidden_fields %}
+			<input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+		{% endfor %}
+
+		{% if auth.user.id %}
+
+			{% else %}
+
+		<div class="row">
+			<div class="col-xs-5">
+				<div class="form-group">
+					<div class="input-group">
+				<span class="input-group-addon">
+					<i class="icon-user"></i>
+				</span>
+						<input type="text" name="name" class="form-control"
+							   placeholder="{{ trans('news::comments.form_add.inputs.name') }}"
+							   data-fv-notempty="true"
+							   data-fv-stringlength="true"
+							   data-fv-stringlength-min="3"
+							   maxlength="50"
+							   required="required">
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-5 col-xs-offset-1">
+				<div class="form-group">
+					<div class="input-group">
+				<span class="input-group-addon">
+					@
+				</span>
+						<input type="text" name="email" class="form-control"
+							   placeholder="{{ trans('news::comments.form_add.inputs.email') }}"
+							   data-fv-notempty="true"
+							   data-fv-stringlength="true"
+							   data-fv-stringlength-min="6"
+							   maxlength="50"
+							   required="required">
+					</div>
+				</div>
+			</div>
+
+		</div>
+		{% endif %}
+
+		<div class="form-group">
+			<textarea name="content" rows="5" cols="60" class="form-control"
+									  data-fv-notempty="true"
+									  data-fv-stringlength="true"
+									  data-fv-stringlength-min="3"
+									  data-fv-row=".form-group"
+									  maxlength="500"
+									  required="required"></textarea>
+
+		</div>
+
+		<div class="form-group">
+			<button type="submit"
+					class="btn btn-lg btn-primary btn-outline">{{ trans('news::comments.form_add.btn_submit_add') }}</button>
+		</div>
+	</form>
+
+</section>

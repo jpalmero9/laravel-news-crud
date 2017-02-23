@@ -1,0 +1,83 @@
+<nav class="navigation">
+
+	<ul class="clearfix navigation-simple">
+		<li class="navigation-simple__item navigation-simple__item_prev">
+			{% if paginator.previousPageUrl %}
+				<a rel="prev" class="btn btn-link navigation__btn navigation-simple__btn"
+				   href="{{ paginator.previousPageUrl }}">
+					<span>←</span>
+					<span class="navigation-simple__btn-text">{{ trans('news::pagination.previous') }}</span>
+				</a>
+			{% else %}
+				<button class="btn btn-link navigation__btn navigation-simple__btn" type="button"
+						disabled="disabled">← {{ trans('news::pagination.previous') }}</button>
+			{% endif %}
+		</li>
+
+		<li class="navigation-simple__item navigation-simple__item_next">
+			{% if paginator.nextPageUrl %}
+				<a rel="next" class="btn btn-link navigation__btn navigation-simple__btn"
+				   href="{{ paginator.nextPageUrl }}">
+					<span class="navigation-simple__btn-text">{{ trans('news::pagination.next') }}</span>
+					<span>→</span>
+				</a>
+			{% else %}
+				<button class="btn btn-link navigation__btn navigation-simple__btn" type="button"
+						disabled="disabled">{{ trans('news::pagination.next') }} →
+				</button>
+			{% endif %}
+		</li>
+	</ul>
+
+	<ul class="clearfix navigation-pages">
+
+		{% if paginator.currentPage > 5 %}
+			<li class="navigation-pages__item">
+				<a class="navigation-pages__link" href="{{ paginator.url(1) }}">1</a>
+			</li>
+			<li class="navigation-pages__item">
+				<span class="navigation-pages__dot">...</span>
+			</li>
+		{% endif %}
+
+
+		{% set link_limit = 5 %}{# maximum number of links (a little bit inaccurate, but will be ok for now) #}
+		{% set half_total_links = link_limit|round(0, 'floor') %}
+		{% set page_start = paginator.currentPage - half_total_links %}
+		{% set page_end = paginator.currentPage + half_total_links %}
+		{% if paginator.currentPage < half_total_links %}
+			{% set page_start = page_start + (half_total_links - paginator.currentPage) %}
+		{% endif %}
+		{% if paginator.lastPage - paginator.currentPage < half_total_links %}
+			{% set page_end = page_end - (half_total_links - (paginator.lastPage - paginator.currentPage) - 1) %}
+		{% endif %}
+
+		{% for i in 1..paginator.lastPage %}
+			{% if page_start < i and i < page_end %}
+				<li class="navigation-pages__item">
+					{% if paginator.currentPage == i %}
+						<span class="navigation-pages__current">{{ i }}</span>
+						<span class="sr-only">({{ trans('news::pagination.current_page') }})</span>
+					{% else %}
+						<a class="navigation-pages__link" href="{{ paginator.url(i) }}">{{ i }}</a>
+					{% endif %}
+				</li>
+			{% endif %}
+		{% endfor %}
+
+
+		{% if paginator.currentPage < (paginator.lastPage -5) -%}
+			<li class="navigation-pages__item">
+				<span class="navigation-pages__dot">...</span>
+			</li>
+		{% endif %}
+		{% if paginator.currentPage < (paginator.lastPage -4) -%}
+			<li class="navigation-pages__item">
+				<a class="navigation-pages__link"
+				   href="{{ paginator.url(paginator.lastPage) }}">{{ paginator.lastPage }}</a>
+			</li>
+		{% endif %}
+
+	</ul>
+
+</nav>

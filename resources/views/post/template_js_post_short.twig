@@ -1,0 +1,54 @@
+<script type="text/template" id="tplPostShortItem">
+	<section class="clearfix news-all-extend__item news-all__item-m" data-id="<%= id %>" itemscope
+			 itemtype="http://schema.org/NewsArticle">
+
+		<div class="col-xs-12 col-sm-3">
+			<a rel="index" href="<%= url %>" itemprop="url">
+				<img src="{{ asset('vendor/news-crud/img/no-image.jpg') }}" alt="<%= name %>"
+					 class="news-all-extend__img" itemprop="image">
+			</a>
+		</div>
+
+		<div class="col-xs-12 col-sm-9">
+
+			<h2 class="news-all-extend__title">
+				<a rel="index" href="<%= url %>" class="news-all-extend__title-i" itemprop="url name"><%= name %></a>
+			</h2>
+
+			<div class="news-all-extend__info">
+				<span class="news-all-extend__label-date"><%= published_safe %></span>
+				<meta itemprop="datePublished" content="{{ post.published_at.toIso8601String() }}">
+
+				<span class="text-muted tooltip-info" data-toggle="tooltip" itemprop="author" title="{{ trans('news::post.article.author') }}"><%= author.name %></span>
+
+				<a rel="nofollow" class="news-all-extend__category tooltip-info" data-toggle="tooltip" href="<%= category.url %>" title="{{ trans('news::post.article.category') }}"><%=
+					category.name %></a>
+			</div>
+
+			<div class="news-all-extend__description" itemprop="description"><%= summary %></div>
+
+			<ul class="list-inline">
+				<% _.map(tags, function(item, i){ %>
+				<li>
+					<a rel="tag" href="<%= item.url %>"
+					   class="tag<% if (item.active){  %> tag_active<% } %>"><%= item.name %></a>
+				</li>
+				<% }); %>
+			</ul>
+
+			<% if (manage_btn){ %>
+			<div class="btn-group pull-right">
+				<a href="<%= manage_btn.edit %>"
+				   class="btn btn-xs btn-success">
+					{{ trans('news::post.page.index.btn_post_edit') }}
+				</a>
+				<button type="button"
+						class="btn btn-danger btn-xs post-btn-delete">
+					{{ trans('news::post.page.index.btn_post_delete') }}
+				</button>
+			</div>
+			<% } %>
+
+		</div>
+	</section>
+</script>

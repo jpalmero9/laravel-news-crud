@@ -1,0 +1,14 @@
+<script type="text/template" id="tplPostShortItem">
+	<section class="clearfix news-all__item" itemscope itemtype="http://schema.org/NewsArticle">
+		<meta itemprop="datePublished" content="<%= post.published_at.toIso8601String %>">
+		<% if post.is_today_published %>
+		<div class="news-all__time"><%= published_at.format({{ trans('news::config.time') }}) %></div>
+		<% else %>
+		<div class="news-all__time"><%= published_at.format({{ trans('news::config.datetime') }}) %></div>
+		<% endif %>
+		<h2 class="news-all__title">
+			<a rel="index" href="<%= url %>" class="news-all__title-i" itemprop="url name"><%= name %></a>
+		</h2>
+		<div class="news-all__description" itemprop="description"><%= summary %></div>
+	</section>
+</script>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="{{ app.getLocale }}" prefix="{{ meta.prefix }}">
+<head>
+	<meta charset="{{ meta.charset }}">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="HandheldFriendly" content="true">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
+	<meta http-equiv="cache-control" content="max-age=0">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="expires" content="Tue, 01 Jan 1981 1:00:00 GMT">
+	<meta http-equiv="pragma" content="no-cache">
+
+	<title>{{ meta.title }}</title>
+	<meta property="og:title" content="{{ meta.title }}">
+	<meta property="vk:title" content="{{ meta.title }}">
+	{% if meta.keywords %}
+		<meta name="keywords" content="{{ meta.keywords }}">
+		<meta property="og:keywords" content="{{ meta.keywords }}">
+		<meta property="vk:keywords" content="{{ meta.keywords }}">
+	{% endif %}
+	{% if meta.description %}
+		<meta name="description" content="{{ meta.description }}">
+		<meta property="og:description" content="{{ meta.description }}">
+		<meta property="vk:description" content="{{ meta.description }}">
+	{% endif %}
+	{% for img in meta.images %}
+		<link rel="image_src" href="{{ img.url }}">
+		<meta property="og:image" content="{{ img.url }}">
+		<meta property="vk:image" content="{{ img.url }}">
+		{% if type in img.type %}
+			<meta property="og:image:type" content="{{ type }}">
+		{% endif %}
+		{% if width in img.width %}
+			<meta property="og:image:type" content="{{ width }}">
+		{% endif %}
+		{% if height in img.height %}
+			<meta property="og:image:type" content="{{ height }}">
+		{% endif %}
+	{% endfor %}
+	<meta property="og:url" content="{{ meta.url_current }}">
+	<meta property="vk:url" content="{{ meta.url_current }}">
+	<link rel="canonical" href="{{ meta.url_current }}">
+	{% if meta.product is not empty -%}
+		{% for property, content in meta.product -%}
+			<meta property="{{ property }}" content="{{ content }}">
+		{% endfor -%}
+	{%- endif %}
+	<link rel="shortcut icon" href="{{ asset('vendor/news-crud/img/meta/favicon.ico') }}" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="57x57"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-57x57.png') }}">
+	<link rel="apple-touch-icon" sizes="60x60"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-60x60.png') }}">
+	<link rel="apple-touch-icon" sizes="72x72"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-72x72.png') }}">
+	<link rel="apple-touch-icon" sizes="76x76"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-76x76.png') }}">
+	<link rel="apple-touch-icon" sizes="114x114"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-114x114.png') }}">
+	<link rel="apple-touch-icon" sizes="120x120"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-120x120.png') }}">
+	<link rel="apple-touch-icon" sizes="144x144"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-144x144.png') }}">
+	<link rel="apple-touch-icon" sizes="152x152"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-152x152.png') }}">
+	<link rel="apple-touch-icon" sizes="180x180"
+		  href="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-180x180.png') }}">
+	<link rel="icon" type="image/png" href="{{ asset('vendor/news-crud/img/meta/favicon-16x16.png') }}" sizes="16x16">
+	<link rel="icon" type="image/png" href="{{ asset('vendor/news-crud/img/meta/favicon-32x32.png') }}" sizes="32x32">
+	<link rel="icon" type="image/png" href="{{ asset('vendor/news-crud/img/meta/favicon-96x96.png') }}" sizes="96x96">
+	<link rel="icon" type="image/png" href="{{ asset('vendor/news-crud/img/meta/android-chrome-192x192.png') }}"
+		  sizes="192x192">
+	<meta name="msapplication-square70x70logo" content="{{ asset('vendor/news-crud/img/meta/smalltile.png') }}">
+	<meta name="msapplication-square150x150logo" content="{{ asset('vendor/news-crud/img/meta/mediumtile.png') }}">
+	<meta name="msapplication-wide310x150logo" content="{{ asset('vendor/news-crud/img/meta/widetile.png') }}">
+	<meta name="msapplication-square310x310logo" content="{{ asset('vendor/news-crud/img/meta/largetile.png') }}">
+
+	<meta name="application-name" content="NewsCrud">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="msapplication-tooltip" content="NewsCrud">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage"
+		  content="{{ asset('vendor/news-crud/img/meta/apple-touch-icon-144x144.png') }}">
+	<meta name="theme-color" content="#ffffff">
+
+	<!--noindex-->
+	<link rel="stylesheet" type="text/css"
+		  href="http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900">
+	<link media="all" type="text/css" rel="stylesheet"
+		  href="{{ asset('vendor/news-crud/plugins/formvalidation/css/formValidation.min.css') }}">
+	<link media="all" type="text/css" rel="stylesheet"
+		  href="{{ asset('vendor/news-crud/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
+	<link media="all" type="text/css" rel="stylesheet"
+		  href="{{ asset('vendor/news-crud/plugins/bootstrap/css/bootstrap.min.css') }}">
+	<link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/news-crud/css/icons.css') }}">
+	<link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/news-crud/css/style.css') }}">
+	<!--/noindex-->
+</head>
+<body data-spy="scroll" data-target="#site-nav" data-offset="250">
