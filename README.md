@@ -8,7 +8,7 @@ __Minimum requirements:__ Laravel 5.4+, php7+
 
 #### Install steps:
 
-##### 1  install package.
+#### 1  install package.
 
 from console use command
 
@@ -33,7 +33,7 @@ then run the command
 composer update
 ```
 
-##### 2 add service provider of package into file `config/app`
+#### 2 add service provider of package into file `config/app`
 
 ```php
 'providers' => [
@@ -53,7 +53,7 @@ Ok, next files from the box is not touched.
 php artisan vendor:publish
 ```
 
-##### 4 run the migration tables for database 
+#### 4 run the migration tables for database 
 
 ```shell
 php artisan migrate 
@@ -64,7 +64,7 @@ next run command right is very, very necessary (or will generated an error that 
 composer dumpautoload
 ```
 
-##### 5 fill database the test data
+#### 5 fill database the test data
 
 ```shell
 php artisan db:seed --class=CrudDatabaseSeeder
